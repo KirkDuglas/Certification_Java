@@ -1,102 +1,82 @@
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
-public class HW6 {
-   public static void main(String[] args) {
-      Notebook notebook1 = new Notebook("Asus", "4", "1000", "Windows", "grey");
-      Notebook notebook2 = new Notebook("Asus", "4", "1000", "Lunex", "black");
-      Notebook notebook3 = new Notebook("Asus", "4", "2000", "Windows", "black");
-      Notebook notebook4 = new Notebook("Asus", "16", "1000", "Windows", "grey");
-      Notebook notebook5 = new Notebook("Huawei", "8", "1000", "Windows", "black");
+public class certification_Java {
+    public static void main(String[] args) {
+        Map<String, List<String>> phonBook = new HashMap<>();
+        phonBook.put("Lena", List.of("8 926 333 33 33", "8 926 222 22 99"));
+        phonBook.put("Ira", List.of("8 926 333 33 55", "8 926 222 22 00"));
+        phonBook.put("Igor", List.of("8 926 333 33 66", "8 926 222 22 44"));
+        phonBook.put("Petr", List.of("8 926 333 33 77", "8 926 222 22 11"));
+        phonBook.put("Dima", List.of("8 926 333 33 88", "8 926 222 22 22"));
 
-      Set<Notebook> notebooks = new HashSet<>(List.of(notebook1, notebook2,
-            notebook3, notebook4, notebook5));
+        menu(phonBook);
 
-      Map<String, String> sel = selectCriteria();
-      sort(sel, notebooks);
+    }
 
-   }
+    public static String scanner() {
+        Scanner scanner = new Scanner(System.in);
+        String scan = scanner.nextLine();
+        // scanner.close();
+        return scan;
+    }
 
-   public static String scanner() {
-      Scanner scanner = new Scanner(System.in);
-      String scan = scanner.nextLine();
-      return scan;
-   }
+    public static void find(Map<String, List<String>> phonBook) {
+        System.out.println("Введите имя: ");
+        String name = scanner();
+        System.out.println(phonBook.get(name));
+    }
 
-   public static Map<String, String> selectCriteria() {
-      Map<String, String> resultCriterias = new HashMap<>();
-      while (true) {
-         System.out.println("Вы хотите выбрать критерий? Если да введите 'y', если нет введите 'n'");
-         String question = scanner();
-         if (question.equals("n")) {
-            break;
-         } else {
+    public static void allBook(Map<String, List<String>> phonBook) {
+        System.out.println(phonBook);
 
-            System.out.println(
-                  "Введите цифру, соответствующую необходимому критерию: \n 1 - Название \n 2 - ОЗУ \n 3 - Объем ЖД \n 4 - Операционная система \n 5 - Цвет");
-            String key = scanner();
-            System.out.println("Введите значения для выбранного критерия: ");
-            String value = scanner();
+    }
 
-            resultCriterias.put(key, value);
-         }
-      }
-      System.out.println(resultCriterias);
-      return resultCriterias;
-
-   }
-
-   public static void sort(Map<String, String> criterias, Set<Notebook> notebooks) {
-
-      Set<Notebook> temp = new HashSet<>(notebooks);
-      for (Notebook notebook : notebooks) {
-
-         for (Object pair : criterias.keySet()) {
-
-            if (pair.equals("1") && !notebook.getName().equals(criterias.get(pair))) {
-               temp.remove(notebook);
+    public static Map<String, List<String>> add(Map<String, List<String>> phonBook) {
+        System.out.println("Если хотите выйтball хотите перестать вводить номера введите 'stop'");
+        System.out.println("Введите имя: ");
+        String name = scanner();
+        List<String> number = new ArrayList<>();
+        while (true) {
+            System.out.println("Введите номер: ");
+            String phon = scanner();
+            if (phon.equals("stop")) {
+                break;
+            } else {
+                number.add(phon);
             }
-            for (Object pair1 : criterias.keySet()) {
+        }
+        phonBook.put(name, number);
 
-               if (pair1.equals("2") && !notebook.getRam().equals(criterias.get(pair1))) {
-                  temp.remove(notebook);
+        return phonBook;
+    }
 
-               }
-               for (Object pair2 : criterias.keySet()) {
-
-                  if (pair2.equals("3") && !notebook.getHardDisk().equals(criterias.get(pair2))) {
-                     temp.remove(notebook);
-
-                  }
-                  for (Object pair3 : criterias.keySet()) {
-
-                     if (pair3.equals("4") && !notebook.getOperatingSystem().equals(criterias.get(pair3))) {
-                        temp.remove(notebook);
-
-                     }
-                     for (Object pair4 : criterias.keySet()) {
-
-                        if (pair4.equals("5") && !notebook.getColour().equals(criterias.get(pair4))) {
-                           temp.remove(notebook);
-
-                        }
-                     }
-                  }
-               }
+    public static Map<String, List<String>> menu(Map<String, List<String>> phonBook) {
+        System.out.println(
+                "Введите команду из списка: find - найти контакт, add - добавить контакт, all - показать всю телефонную книгу, exit - выйти");
+        while (true) {
+            String comands = scanner();
+            if (comands.equals("exit")) {
+                break;
+            } else {
+                switch (comands) {
+                    case "find":
+                        find(phonBook);
+                        break;
+                    case "add":
+                        add(phonBook);
+                        break;
+                    case "all":
+                        allBook(phonBook);
+                        break;
+                    default:
+                        break;
+                }
             }
-         }
-
-      }
-      if (temp.isEmpty()) {
-         System.out.println("По введенным критериям ничего не найдено!");
-      } else {
-         System.out.println("Вот что мы можем предложить: \n" + temp.toString());
-      }
-
-   }
-
+        }
+        return phonBook;
+    }
 }
