@@ -1,6 +1,5 @@
-package certif_java;
 import java.util.*;
-public class cert_Sber {
+public class cert {
 
     public static void addNumber(String key, int value, Map<String, ArrayList<Integer>> map) {
         if (map.containsKey(key)) {
